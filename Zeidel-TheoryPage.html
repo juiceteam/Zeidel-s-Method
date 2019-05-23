@@ -1,0 +1,795 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="Zeidel-Styles.css" rel="stylesheet">
+    <script>
+
+    </script>
+
+</head>
+
+<body>
+    <div id="menu1" class="menu"></div>
+    <div id="footer1">
+        <h2 id="footer_inside"></h2>
+    </div>
+
+    <div id="Text" class="Text">
+        <h1 id="h1">Теория</h1>
+        <h2 id="h2">Метод Зейделя</h2>
+        <p>
+            <span id="span">
+                Метод Зейделя (метод последовательных
+                замещений) — классический итерационный метод решения системы линейных
+                уравнений. Данный метод можно рассматривать как модификацию метода простых
+                итераций и метода Якоби. <o:p></o:p>
+            </span>
+            <h2 id="h2">Постановка задачи</h2>
+
+        <p>
+            <span id="span">Требуется найти</span><span id="span">
+                решения системы линейных алгебраических
+                уравнений (СЛАУ). <span id="span"> </span>Рассмотрим систему
+            </span><b>
+                <i>
+                    <span id="span">A</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">&#8729;</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">x</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">=</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">b</span>
+                </i>
+            </b><span id="span">, где<o:p></o:p></span>
+        </p>
+
+       
+       
+          <script 
+         <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+        </script>
+        
+        <style>
+          p { font-size: 15pt; }
+        </style>
+       
+       
+       
+           <p>
+        
+                   \[
+            A=
+            \begin{pmatrix} 
+            a_{11}&\dots&a_{1n}\\
+            \vdots&\ddots& \vdots\\
+            a_{n1}&\dots&a_{nn}\\
+            \end{pmatrix},
+
+          x=\left(\begin{matrix}
+          x_1\\ x_2\\ \vdots\\ x_n\\
+          \end{matrix}          
+          \right)          ,
+
+          b=\left(\begin{matrix}
+          b_1\\b_2\\ \vdots\\b_n\\
+          \end{matrix}          
+          \right)          ,
+
+         \]
+         
+         </p>
+                
+                
+          <p>
+            <span id="span">или<o:p></o:p></span>
+        </p>
+       
+       
+                  <p>
+             $$
+            \left  \{  \begin{aligned} & a_{11} x_1 +a_{12} x_2+...+a_{1 n} x_{n}=b_1 ,  \\
+            & a_{2 1} x_1 +a_{2 2} x_2+...+a_{2 n} x_{n}=b_2 ,\\
+            & \ldots \\
+            & a_{n 1} x_1 +a_{n 2} x_2+...+a_{n n} x_{n}=b_{n} \end{aligned}  \right.
+            $$
+        </p>
+       
+       
+      
+       
+        <p>
+            <span id="span">
+                Данная
+                система может быть решена с помощью метода Зейделя.<o:p></o:p>
+            </span>
+        </p>
+        <h2 id="h2">Метод</h2>
+        <p>
+            <span id="span">
+                Чтобы пояснить суть метода, перепишем
+                задачу в виде<o:p></o:p>
+            </span>
+        </p>
+       
+       
+        <p>
+       \[
+          
+            \left  \{  \begin{aligned} 
+            & a_{11}x_1 = -a_{12}x_2-a_{13}x_3-...-a_{1n}x_{n}+b_1 ,  \\
+            & a_{21}x_1+a_{22}x_2 = -a_{23}x_3-...-a_{2n}x_{n} +b_2 ,\\
+            & \ldots \\
+            & a_{n-1,1} x_1 +a_{n-1,2} x_2+...+a_{n-1,n-1} x_{n-1}=-a_{n-1,n}x_{n} + b_{n-1} \\
+            & a_{n1} x_1 +a_{n2} x_2+...+a_{n,n-1} x_{n-1}+a_{n,n} x_{n}=b_{n} \end{aligned}  \right.
+          
+            \]
+         </p>
+       
+       
+        <p>
+            <span id="span">
+                Здесь в j-м уравнении мы перенесли в
+                правую часть все члены, содержащие
+            </span><span id="span">
+                <b>
+                    <i>
+                        <span id="span">x<sub>i</sub></span>
+                    </i>
+                </b>
+            </span><span id="span">
+                для <b>
+                    <i>
+                        i&gt;
+                        j
+                    </i>
+                </b>. Эта запись может быть представлена как
+            </span><b>
+                <i>
+                    <span id="span">(</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">L</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">+</span>
+                </i>
+            </b><span id="span">
+                <b>
+                    <i>
+                        <span id="span">D</span>
+                    </i>
+                </b><b>
+                    <i>
+                        <span id="span">)&#8729;</span>
+                    </i>
+                </b>
+            </span><b>
+                <i>
+                    <span id="span">x</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">=</span>
+                </i>
+            </b><span id="span">
+                <b>
+                    <i>
+                        <span id="span">&#8722;</span>
+                    </i>
+                </b>
+            </span><b>
+                <i>
+                    <span id="span">U</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">&#8729;</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">x</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">+</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">b</span>
+                </i>
+            </b><span id="span">,<o:p></o:p></span>
+        </p>
+
+        <p>
+            <span id="span">где в принятых обозначениях</span><b>
+                <i>
+                    <span id="span">D</span>
+                </i>
+            </b><span id="span">
+                означает матрицу, у которой на главной
+                диагонали стоят соответствующие элементы матрицы
+            </span><b>
+                <i>
+                    <span id="span">A</span>
+                </i>
+            </b><span id="span">, а все остальные нули; тогда как матрицы</span><b>
+                <i>
+                    <span id="span">U</span>
+                </i>
+            </b><span id="span"></span><span id="span">и</span><b>
+                <i>
+                    <span id="span">L</span>
+                </i>
+            </b><span id="span">
+                содержат верхнюю и нижнюю треугольные
+                части
+            </span><b>
+                <i>
+                    <span id="span">A</span>
+                </i>
+            </b><span id="span">
+                , на главной
+                диагонали которых нули.<o:p></o:p>
+            </span>
+        </p>
+
+        <p>
+            <span id="span">
+                Итерационный процесс в методе Зейделя
+                строится по формуле<o:p></o:p>
+            </span>
+        </p>
+        <p>
+            <b>
+                <i>
+                    <span id="span">(</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">L</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">+</span>
+                </i>
+            </b><span id="span">
+                <b>
+                    <i>
+                        <span id="span">D</span>
+                    </i>
+                </b><b>
+                    <i>
+                        <span id="span">)&#8729;</span>
+                    </i>
+                </b>
+            </span><b>
+                <i>
+                    <span id="span">x</span>
+                </i>
+            </b><b>
+                <i>
+                    <sup>
+                        <span id="span">(</span>
+                    </sup>
+                </i>
+            </b><b>
+                <i>
+                    <sup>
+                        <span id="span">k</span>
+                    </sup>
+                </i>
+            </b><b>
+                <i>
+                    <sup>
+                        <span id="span">+1)</span>
+                    </sup>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">
+                        =
+                    </span>
+                </i>
+            </b><span id="span">
+                <b>
+                    <i>
+                        <span id="span">&#8722;</span>
+                    </i>
+                </b>
+            </span><b>
+                <i>
+                    <span id="span">U</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">&#8729;</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">x</span>
+                </i>
+            </b><b>
+                <i>
+                    <sup>
+                        <span id="span">(</span>
+                    </sup>
+                </i>
+            </b><b>
+                <i>
+                    <sup>
+                        <span id="span">k</span>
+                    </sup>
+                </i>
+            </b><b>
+                <i>
+                    <sup>
+                        <span id="span">)</span>
+                    </sup>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">
+                        +
+                    </span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">b</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">
+                        ,<span id="span"></span>
+                    </span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">k</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">= 0, 1, 2, …<o:p></o:p></span>
+                </i>
+            </b>
+        </p>
+
+        <p>
+            <span id="span">
+                после выбора соответствующего начального
+                приближения
+            </span><b>
+                <i>
+                    <span id="span">x<sup>(0)</sup></span>
+                </i>
+            </b><span id="span">.<o:p></o:p></span>
+        </p>
+
+        <p>
+            <span id="span">
+                Основная идея метода состоит в том, что
+                новые значения
+            </span><span id="span">
+                <b>
+                    <i>
+                        <span id="span">x<sup>( i</sup></span>
+                    </i>
+                </b>
+            </span><b>
+                <i>
+                    <sup>
+                        <span id="span">
+                            )
+                        </span>
+                    </sup>
+                </i>
+            </b><span id="span">
+                используются здесь сразу же по мере получения, в то время как в методах простых
+                итераций и Якоби они не используются до следующей итерации.<o:p></o:p>
+            </span>
+        </p>
+        <p>
+            <span id="span">
+                <span id="span"></span>Формулы метода Зейделя:<o:p></o:p>
+            </span>
+        </p>
+        
+           <p>
+            \[
+          
+            \left  \{  \begin{aligned} 
+            & x_1^{(k+1)} =  c_{12} \cdot x_2^{(k)} +c_{13} \cdot x_3^{(k)}+...+c_{1 n} \cdot x_{n}^{(k)}+d_1 ,  \\
+           & x_2^{(k+1)} =  c_{21} \cdot x_1^{(k+1)} +c_{23} \cdot x_3^{(k)}+...+c_{2 n} \cdot x_{n}^{(k)}+d_2 ,  \\
+            &\dots \\
+             & x_n^{(k+1)} =  c_{n1} \cdot x_1^{(k+1)} +c_{n2} \cdot x_2^{(k+1)}+...+c_{n,n-1} \cdot x_{n-1}^{(k+1)}+d_n \end{aligned}  \right.  , 
+
+        \]
+        </p>
+        
+        
+
+        <p> <span id="span">где<o:p></o:p></span></p>
+
+        <p>
+           \[
+          c_{ij}=
+            \left  \{  \begin{aligned} 
+            & -\frac{a_{ij}}{a_{ii}} ,   \;  j \neq i, \\
+            &0, \; j = i.
+            \end{aligned}  \right. , \; d_i = \frac{b_i}{a_{ii}}, \; i = 1, \dots, n.
+            \]
+          </p>
+        
+
+
+       
+        <p>
+            <span id="span">
+                Таким
+                образом, i-я компонента (k+1)-го приближения вычисляется по формуле<o:p></o:p>
+            </span>
+        </p>
+        
+              <p>
+           \[
+            x_i^{(k+1)} = \sum_{j=1}^{i-1} c_{ij}x_j^{(k+1)} + \sum_{j=1}^{n} c_{ij}x_j^{(k)} + d_i
+            , \; i = 1, \dots, n.
+            \]
+                </p>
+      
+        <p>
+            <span id="span">Вектор начальных приближений</span><b>
+                <i>
+                    <span id="span">
+                        x<sup>
+                            (0)
+                        </sup>
+                    </span>
+                </i>
+            </b><span id="span">
+                берется
+                произвольно. Часто
+            </span><b>
+                <i>
+                    <span id="span">
+                        x<sup>
+                            (
+                            0)
+
+                        </sup> <span id="span">=</span> 0
+
+                    </span>
+                </i>
+            </b><span id="span">или</span><b>
+                <i>
+                    <span id="span">
+                        x<sup>(0)</sup>=
+                    </span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">d</span>
+                </i>
+            </b><span id="span">.<o:p></o:p></span>
+        </p>
+
+        <p>
+            <span id="span">
+                Например,
+                при
+            </span><b>
+                <i>
+                    <span id="span">n</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">
+                        = 3
+                    </span>
+                </i>
+            </b><span id="span">:<o:p></o:p></span>
+        </p>
+
+
+        <p>
+              \[
+x_1^{(k+1)} = c_{11}x_1^{(k)} + c_{12}x_2^{(k)} + c_{13}x_3^{(k)} + d_1,\\
+x_2^{(k+1)} = c_{21}x_1^{(k+1)} + c_{22}x_2^{(k)} + c_{23}x_3^{(k)} + d_2,\\
+x_3^{(k+1)} = c_{31}x_1^{(k+1)} + c_{32}x_2^{(k+1)} + c_{33}x_3^{(k)} + d_3.
+
+            \]
+          </p>
+       
+        <h2 id="h2">Условие сходимости</h2>
+
+        <p>
+            <span id="span">
+                Условие окончания итерационного процесса
+                Зейделя при достижении точности
+            </span><b>
+                <i>
+                    <span id="span">&#949;</span>
+                </i>
+            </b><span id="span">имеет вид:</span><span id="span">
+                <b>
+                    <span id="span">&#8741;</span>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <span id="span">x</span>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <sup>
+                            <span id="span">(</span>
+                        </sup>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <sup>
+                            <span id="span">k</span>
+                        </sup>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <sup>
+                            <span id="span">+</span>
+                        </sup>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <sup>
+                            <span id="span">1</span>
+                        </sup>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <sup>
+                            <span id="span">)</span>
+                        </sup>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <span id="span">&#8722;</span>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <span id="span">x</span>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <sup>
+                            <span id="span">(</span>
+                        </sup>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <sup>
+                            <span id="span">k</span>
+                        </sup>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <i>
+                        <sup>
+                            <span id="span">)</span>
+                        </sup>
+                    </i>
+                </b>
+            </span><span id="span">
+                <b>
+                    <span id="span">&#8741;</span>
+                </b>
+            </span><span id="span">
+                <b>
+                    <span id="span">&lt;&#949;</span>
+                </b>
+            </span><span id="span">
+                <span id="span">.<o:p></o:p></span>
+            </span>
+        </p>
+
+        <p>
+            <span id="span">
+                <span id="span"><o:p>&nbsp;</o:p></span>
+            </span>
+        </p>
+
+        <h2 id="h2">
+            Теорема о достаточном условии
+            сходимости метода Зейделя
+        </h2>
+
+        <p>
+            <span id="span">
+                Если
+                для системы
+            </span><b>
+                <i>
+                    <span id="span">x =<span id="span">сx</span>+</span>
+                </i>
+            </b><b>
+                <i>
+                    <span id="span">d</span>
+                </i>
+            </b><span id="span"></span><span id="span">какая-либо норма матрицы</span><b>
+                <i>
+                    <span id="span">c</span>
+                </i>
+            </b><span id="span"></span><span id="span">
+                меньше
+                единицы, т.е. </br>
+            </span><b>
+                <span id="span">&#8741;</span>
+            </b><b>
+                <i>
+                    <span id="span">c</span>
+                </i>
+            </b><b>
+                <span id="span">&#8741;</span>
+            </b><b>
+                <span id="span"><i>&lt;1</i></span>
+            </b><span id="span">
+                , то процесс последовательных приближений сходится к единственному
+                решению исходной системы
+            </span><span id="span">
+                <b>
+                    <i>
+                        <span id="span">Ax</span>
+                    </i>
+                </b>
+            </span><b>
+                <i>
+                    <span id="span">= b</span>
+                </i>
+            </b><span id="span">
+                при
+                любом начальном приближении
+            </span><b>
+                <i>
+                    <span id="span">x<sup>(0)</sup></span>
+                </i>
+            </b><span id="span">.<o:p></o:p></span>
+        </p>
+
+        <p>
+            <b>
+                <span id="span"><o:p>&nbsp;</o:p></span>
+            </b>
+        </p>
+        <h2 id="h2">Теорема</h2>
+
+        <p><span id="span">Если система</span><span id="span">
+    <b>
+        <i>
+            <span id="span">Ax</span>
+        </i>
+    </b>
+</span><b>
+                <i>
+                    <span id="span">= b</span>
+                </i>
+            </b><span id="span">
+                    <span id="span">
+                        – <b >нормальная</b>, то метод Зейделя сходится.
+                    </span>
+</span><span id="span"><o:p></o:p></span>
+        </p>
+
+        <p >
+            <span id="span">Система</span><span id="span">
+    <b>
+        <i>
+            <span id="span">Ax</span>
+        </i>
+    </b>
+</span><b >
+                <i>
+                    <span id="span">= b</span>
+                </i>
+            </b><span id="span">
+    называется <b >нормальной</b>, если матрица
+</span><b >
+                <i >
+                    <span id="span">A</span>
+                </i>
+            </b><span id="span"></span><span id="span"><span id="span">–</span></span><span id="span">
+    симметричная положительно
+    определенная. <o:p></o:p>
+</span>
+        </p>
+
+        <p >
+            <span id="span">
+                СЛАУ с
+                невырожденной матрицей
+            </span><b >
+                <i >
+                    <span id="span">А</span>
+                </i>
+            </b><span id="span">
+    может быть преобразована к <b >нормальной</b>, если ее умножить слева на матрицу
+</span><b >
+                <i>
+                    <span id="span">A<sup>T</sup></span>
+                </i>
+            </b><span id="span">. Тогда система примет вид:</span><span id="span">
+    <b>
+        <i>
+            <span id="span">A<sup>T</sup>A</span>
+        </i>
+    </b><b >
+        <i >
+            <span id="span">&#8729;</span>
+        </i>
+    </b><b >
+        <i>
+            <span id="span">x</span>
+        </i>
+    </b>
+</span><b>
+                <i>
+                    <span id="span">=</span>
+                </i>
+            </b><b >
+                <i >
+                    <span id="span">
+                        <span id="span"><span id="span">A<sup>T</sup>b</span></span>
+                    </span>
+                </i>
+            </b><span id="span">
+    . Такая
+    система является
+</span><span id="span">
+    <b>нормальной</b>.<o:p></o:p>
+</span>
+        </p>
+
+    </div>
+
+    <nav>
+        <ul class="top-menu">
+            <li><a href="Zeidel-DecidingPage.html">Калькулятор</a></li>
+            <li class="active">Теория</li>
+        </ul>
+    </nav>
+
+    <div id="heading">
+        <h2 id="list_underline">Теория</h2>
+    </div>
+</body>
+</html>

@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="Zeidel-Styles.css" rel="stylesheet">
+    <script>
+
+        var check = false;
+
+        function main() {
+            if (check == false) {
+                createMatrix();
+            } else {
+                location.reload();
+            }
+
+
+        }
+
+        function createMatrix() {
+
+            var cols = document.getElementById('sizeN').value;
+            var rows = cols;
+
+            precision = document.getElementById('precisionField').value;
+
+            var pattern = /[0-6]/;
+            var result = pattern.test(cols);
+
+            var emptyField = "";
+
+            if (cols == emptyField) {
+                alert("Ошибка! Введите значения поля!");
+                return -1;
+            }
+            if (!result) {
+                alert("Ошибка! Введите целое число n < 7 !");
+                return -1;
+            }
+
+            var p = document.createElement('p');
+            p.innerText = "Введите коэффициенты линейных уравнений: ";
+            document.getElementById('container').appendChild(p);
+
+            createCR(cols, rows);
+            check = true;
+            return check;
+        }
+        //ФУНКЦИЯ ПОЛУЧЕНИЯ РЕЗУЛЬТАТА
+        function getPerfectRes(rows, cols, koefs, koefsVectorB, koefsApproach, resultNumb, precision) {
+
+            function searchMax(M, n) //функция находит максимальное значение массива
+            {
+                var a = M[0];
+                for (var k = 0; k < n; k++)
+                    if (Math.abs(M[k]) > Math.abs(a))
+                        a = M[k];
+                return a;
+            }
+
+            var n = cols;							//размерность матрицы
+            var errorCondition = true;		//условие оценки погрешности
+            var c, max;
+
+
+            var a = [];     //начальная матрица А линейной системы
+            var tA = [];    //транспонированная матрица А
+            var mA = [];    //перемноженная транспонир. матрица на матрицу А
+
+            for (var i = 0; i < n; i++) {
+                a[i] = [];
+                tA[i] = [];
+                mA[i] = [];
+            }
+            var b = [];     // вектор массив В линейной системы
+            var mB = [];    //новый вектор В, полученный перемножением транспонир. м-цы на изначальн. вектор В
+            var x = [];     //начальные приближения
+
+            for (var i = 0; i < n; i++)
+                x[i] = koefsApproach[i];					//заполняем введенными числами
+
+            for (var i = 0; i < cols; i++) {
+                for (var j = 0; j < rows; j++) {
+                    a[i][j] = koefs[i][j];
+                }
+            }
+            for (var i = 0; i < cols; i++) {
+                b[i] = koefsVectorB[i];
+            }
+
+            //для улучшенной работы метода зейделя следует изменить начальную систему СЛАУ, умножив
+            //матрицу А и вектор В на трнаспонир. матрицу А
+            //благодаря этому система станет нормальной, а матрица А положительно определенной, откуда 
+            //следует сходимость метода к правильному решению
+            for (var i = 0; i < n; i++)
+                for (var j = i; j < n; j++) {
+                    tA[i][j] = a[j][i];			//получение транспонированной матрицы А
+                    tA[j][i] = a[i][j];
+                }
+
+            for (var i = 0; i < n; i++) {
+                mB[i] = 0;
+                for (var k = 0; k < n; k++) {
+                    mB[i] = mB[i] + tA[i][k] * b[k];		//умножение трансп. матрицы на массив В
+                    mA[i][k] = 0;
+                    for (var j = 0; j < n; j++)
+                        mA[i][k] = mA[i][k] + tA[i][j] * a[j][k];		//умножение трансп. матрицы на матрицу А изначальную
+                }
+            }
+
+            for (var i = 0; i < n; i++) {
+                for (var j = 0; j < n; j++)
+                    if (i != j)
+                        mA[i][j] = - mA[i][j] / mA[i][i];			//согласно формулам вычисляются новые значения коэффициентов матрицы
+                mB[i] = mB[i] / mA[i][i];
+                mA[i][i] = 0;
+            }
+
+            //пока выполняется условие оценки погрешности цикл метод вычисляет на каждом шаге начальные приближения, изменяя и приближая их к решению системы
+            while (errorCondition) {
+                max = searchMax(x, n);  //ищется максимальное значение массива начальных приближений(решения системы) на данном шаге
+                for (var i = 0; i < n; i++) {
+                    c = 0;
+                    for (var j = 0; j < n; j++)
+                        c = c + mA[i][j] * x[j];		//вычисление новых значений вектора х согласно формулам метода Зейделя
+                    x[i] = c + mB[i];
+                }
+                if (Math.abs((searchMax(x, n)) - (max)) < precision)			//оценка погрешности путем сравнения разности максимальных
+                    errorCondition = false;								//величин массива х на предыдущем шаге и следующем с некоторой малой величиной
+            }														//если разность оказывается меньше некоторой маленькой величины, то это значит, что
+            //метод сошелся и вычисления прекращаются.
+            for (var i = 0; i < n; i++) {
+                if (Math.abs(x[i]) < 0.0001)					//из-за погрешности численных методов компьютер часто заместо 0 получает очень маленькую величину
+                    x[i] = 0;							//которую можно заменить нормальным 0 для вывода решений системы
+                resultNumb[i] = x[i];
+            }
+            return resultNumb;
+        }
+
+        // функция создания матрицы
+        function createCR(cols, rows) {
+
+            var matrix = [];
+            for (var i = 0; i < cols; i++) {
+                matrix[i] = [];
+            }
+
+            var container = [];
+            var approach = [];
+            var vectorB = [];
+            var leftPos = 35;
+            var topPos = 32;
+
+            for (var j = 0; j < rows; j++) {
+                //создание контейнеров под поля
+                container[j] = document.createElement("div");
+                container[j].className = ("container" + j);
+                container[j].style.position = "absolute";
+                container[j].style.left = leftPos + "%";
+                container[j].style.top = topPos + "%";
+
+                document.body.appendChild(container[j]);
+                topPos += 5;
+
+                //создание полей и заполнение ими контейнеров
+                for (var k = 0; k < cols; k++) {
+                    matrix[j][k] = document.createElement("input");
+                    matrix[j][k].type = "text";
+                    matrix[j][k].size = "10";
+                    matrix[j][k].value = "";
+                    matrix[j][k].style.margin = "5px";
+                    matrix[j][k].name = "textField";
+                    matrix[j][k].placeholder = "a" + (j+1) + (k + 1);
+
+                    container[j].appendChild(matrix[j][k]);
+                }
+                //создание векторов B
+
+                vectorB[j] = document.createElement("input");
+                vectorB[j].type = "text";
+                vectorB[j].size = "10";
+                vectorB[j].value = "";
+                vectorB[j].style.margin = "5px";
+                vectorB[j].name = "textField";
+                vectorB[j].placeholder = "b" + (j + 1);
+                container[j].appendChild(vectorB[j]);
+                //вывод полей для вектора В
+                if (j == (rows - 1)) {
+
+                    var paragraph = document.createElement("p");
+                    paragraph.innerText = "Введите значения начальных приближений: ";
+                    container[j].appendChild(paragraph);
+
+                    // заполнение контейнеров полями
+                    for (var count = 0; count < rows; count++) {
+
+                        approach[count] = document.createElement("input");
+                        approach[count].type = "text";
+                        approach[count].size = "10";
+                        approach[count].value = 0;
+                        approach[count].style.margin = "5px";
+                        approach[count].name = "approachField";
+                        approach[count].placeholder = "Уравнение " + (count + 1);
+
+                        container[j].appendChild(approach[count]);
+
+                    }
+
+                    // создание кнопки для получения результата
+                    var btnCalc = document.createElement("input");
+                    btnCalc.type = "button";
+                    btnCalc.value = "Расчет";
+                    btnCalc.id = "btnCalc";
+                    btnCalc.onclick = function () {
+                        //создание  массива для записи значений с полей матрицы
+                        var koefs = [];
+                        for (var i = 0; i < cols; i++) {
+                            koefs[i] = [];
+                        }
+                        //создание массива для записи с полей вектора В
+                        var koefsVectorB = [];
+
+                        // сбор данных с полей матрицы и вектора В, введенных пользователем
+                        for (var j = 0; j < rows; j++) {
+                            koefsVectorB[j] = vectorB[j].value;
+                            for (var k = 0; k < cols; k++) {
+                                koefs[j][k] = matrix[j][k].value;
+                            }
+                        }
+                        //создание массива для записи с полей приближенных значений
+                        var koefsApproach = [];
+
+                        // сбор данных с полей иближенных значений, введенных пользователем
+                        for (var j = 0; j < rows; j++) {
+                            koefsApproach[j] = approach[j].value;
+                        }
+                        //создание информативного параграфа для вывода результата
+                        var parResult = document.createElement("p");
+                        parResult.innerText = "Корни: ";
+                        parResult.style.fontSize = "22px";
+                        container[rows - 1].appendChild(parResult);
+
+                        var result=[];
+                        var resultNumb = [];
+
+                        //получение заполненного массива из функции getPerfectRes
+                        resultNumb = getPerfectRes(rows, cols, koefs, koefsVectorB, koefsApproach, resultNumb, precision);
+                        for (var i = 0; i < rows; i++) {
+                            result[i] = document.createElement("p");
+                            result[i].style.fontSize = "18px";
+                            result[i].innerText = "x" + (i + 1) + "= " + resultNumb[i].toFixed(2);
+                            container[rows - 1].appendChild(result[i]);
+                        }
+                    };
+                    container[j].appendChild(btnCalc);
+                }
+            }
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <div id="menu" class="menu">
+    </div>
+
+    <div id="footer">
+        <h2 id="footer_inside"></h2>
+    </div>
+
+    <div id="startContainer" class="startContainer">
+
+        <h1>Решение СЛАУ методом Зейделя</h1>
+
+        Введите кол-во неизвестных величин в системе: <input type="text" id="sizeN" name="sizeN" size="5" maxlength="15" value="" />
+        
+        Точность:
+        <input type="text" id="precisionField" name="precisionField" size="5" maxlength="15" style="border-radius:4px" value="1e-9" />
+
+        <input id="EntBtn" type="button" value="Ввести" onclick="main()" />
+    </div>
+
+    <div id="container" class="container"></div>
+
+
+    <nav>
+        <ul class="top-menu">
+            <li class="active">Калькулятор</li>
+            <li> <a href="Zeidel-TheoryPage.html">Теория</a></li>
+        </ul>
+    </nav>
+
+    <div id="heading">
+        <h2 id="list_underline">Калькулятор</h2>
+    </div>
+</body>
+</html>
